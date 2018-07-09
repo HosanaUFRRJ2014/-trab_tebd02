@@ -4,15 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Catálogo de Atores</title>
+<title>Detalhes do Ator(a)</title>
 </head>
 <body>
-<h1>Sistema de Catálogo de Atores</h1>
 
-<div id="lista"></div>
 </body>
-
-<p></p>
-
-<script src="./js/requisicao.js"></script>
 </html>

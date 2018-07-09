@@ -34,9 +34,9 @@ postActorsList(`http://localhost:3030/ds/query`, "query=prefix foaf:<http://movi
 const montarExibicaoDados = (dados = ``) => {
 	let dadosAexibir = "";
 	for (i = 0; dados[i]!=null; i++) {
-		dadosAexibir +=   dados[i].id.value + " ";
-		dadosAexibir +=   dados[i].nome.value + " ";
-		dadosAexibir +=   dados[i].Sobrenome.value + "<br><br>";
+		dadosAexibir +=   "<a href=\"detalhesAtor.jsp#"+dados[i].id.value  +"\">";// + dados[i].id.value + " ";
+		dadosAexibir +=   dados[i].nome.value+"</a>"+ "<br><br>";;
+	//	dadosAexibir +=   dados[i].Sobrenome.value ;
 	}
 	
 	return dadosAexibir;
