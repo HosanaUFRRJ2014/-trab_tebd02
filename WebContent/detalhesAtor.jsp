@@ -27,7 +27,7 @@
 </table>
 
 <h4>Filmes que o artista participou:</h4>
-<p id="filmes"></p>
+<div id="filmes"></div>
 	
 	
 <!-- possível código java aqui para carregamento dos dados dos filmes -->
