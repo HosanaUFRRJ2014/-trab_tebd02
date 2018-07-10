@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="org.apache.jena.query.*"%>;
-<%@ page import="java.io.*"%>;
-
-
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -14,8 +10,9 @@
 </head>
 <body onload=exibirDetalhesAtor()>
 
+<h3>Dados do ator:</h3>
 <table >
-  <caption>Dados do ator</caption>
+
     <td>ID: </td>
     <td id="id"></td>
   </tr>
@@ -29,21 +26,8 @@
   </tr>
 </table>
 
-<h3>Exibir dados dos filmes aqui</h3>
-
-	<% String prefixo  = "foaf: <http://movieland.com/ufrrj/tebd/#>"; 
-	String consulta = prefixo + "SELECT ?ID_FILME \n" + 
-			"WHERE\n" + 
-			"{\n" + 
-			"  ?filme foaf:movieId ?ID_FILME .\n" + 
-			"  ?filme foaf:actorId '137' .\n" + 
-			"}";
-	
-	Query query 	  	= QueryFactory.create(consulta);
-	QueryExecution qe 	= QueryExecutionFactory.create(query);
-	ResultSet resultado = qe.execSelect(); 
-	out.println(resultado);
-	%>
+<h4>Filmes que o artista participou:</h4>
+<p id="filmes"></p>
 	
 	
 <!-- possível código java aqui para carregamento dos dados dos filmes -->

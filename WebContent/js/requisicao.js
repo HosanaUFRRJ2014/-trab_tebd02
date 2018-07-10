@@ -2,7 +2,9 @@
  * 
  */
 
-
+endpoint_atores = `http://localhost:3030/actors/query`;
+dataset_atores = "<http://localhost:3030/actors/data/actors>";
+dataset_atores_filmes = "<http://localhost:3030/actors/data/actors_movies>";
 
 const postActors = (url = ``, data = {}) => {
   return fetch(url, {
@@ -17,7 +19,7 @@ const postActors = (url = ``, data = {}) => {
 };
 
 listarAtores = () => {
-	postActors(`http://localhost:3030/ds/query`, "query=prefix foaf:<http://movieland.com/ufrrj/tebd/#> SELECT ?id ?nome ?Sobrenome WHERE {?actor foaf:actorId ?id . ?actor foaf:firstName ?nome . ?actor foaf:lastName ?Sobrenome . }")
+	postActors(endpoint_atores, "query=prefix foaf:<http://movieland.com/ufrrj/tebd/#> SELECT ?id ?nome ?Sobrenome FROM "+ dataset_atores +" WHERE {?actor foaf:actorId ?id . ?actor foaf:firstName ?nome . ?actor foaf:lastName ?Sobrenome . }")
 	.then(data => {
 		console.log(data);
 		resultados = data["results"];
@@ -32,19 +34,39 @@ listarAtores = () => {
 	
 }
 
+listarFilmes = () => {
+	
+}
+
+
+
 const exibirDetalhesAtor = () => {
 	
 	//Recuperando id de ator contido na url da página para recuperar seus dados
 	let urlPagina = window.location.href;
 	let idAtor = urlPagina.split("#")[1];
 	
-	postActors(`http://localhost:3030/ds/query`, "query=prefix foaf:<http://movieland.com/ufrrj/tebd/#> SELECT ?id ?nome ?Sobrenome WHERE {?actor foaf:actorId ?id . ?actor foaf:firstName ?nome . ?actor foaf:lastName ?Sobrenome . FILTER (?id = \"" + idAtor +"\") }")
+	postActors(endpoint_atores, "query=prefix foaf:<http://movieland.com/ufrrj/tebd/#> SELECT ?id ?nome ?Sobrenome FROM "+ dataset_atores +"  WHERE {?actor foaf:actorId ?id . ?actor foaf:firstName ?nome . ?actor foaf:lastName ?Sobrenome . FILTER (?id = \"" + idAtor +"\") }")
 	.then(data => {
 		console.log(data);
 		resultados = data["results"];
 		
 		montarExibicaoDadosAtor(resultados["bindings"][0]);
 
+		
+	}) // JSON from `response.json()` call
+	.catch(error => console.log(error));
+	
+	//listando filmes que o ator participa:
+	postActors(endpoint_atores, "query=prefix foaf:   <http://movieland.com/ufrrj/tebd/#>  SELECT ?idAtor ?idFilme  FROM " + dataset_atores_filmes + " WHERE  {  ?actor_movie foaf:movieId ?idFilme .  ?actor_movie foaf:actorId ?idAtor . FILTER(?idAtor = \""+ idAtor + "\") }")
+	.then(data => {
+		console.log(data);
+		resultados = data["results"];
+
+		//recuperando nome do ator do json
+		let exibicao = montarExibicaoFilmes(resultados["bindings"]);
+		
+		document.getElementById("filmes").innerHTML = exibicao;
 		
 	}) // JSON from `response.json()` call
 	.catch(error => console.log(error));	
@@ -72,6 +94,19 @@ const montarExibicaoNomeAtor= (dados = ``) => {
 	return dadosAexibir;
 }
 
+const montarExibicaoFilmes = (dados = ``) => {
+	let dadosAexibir = "";
+	//exibindo apenas o primeiro no com link para os detalhes. Id para diferenciar
+	for (i = 0; dados[i]!=null; i++) {
+		dadosAexibir +=   "<a href=\"detalhesFilme.jsp#"+dados[i].idFilme.value  +"\">" + dados[i].idFilme.value + "</a>";
+		if(dados[i+1] == null)
+			dadosAexibir += ".";
+		else
+			dadosAexibir += ", ";
+	}
+	
+	return dadosAexibir;
+}
 
 const montarExibicaoDadosAtor = (dados = ``) => {
 	document.getElementById("id").innerHTML = dados.id.value;
