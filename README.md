@@ -16,13 +16,28 @@ Se algo relacionado a openJDK aparecer no seu sistema ou a versão de Java não 
 
 ### Instalar a IDE Eclipse para Java EE Developers
 Esse tutorial foi construido com base no [Eclipse Neon.2](http://www.eclipse.org/downloads/packages/release/Neon/2), mas a aplicação deve funcionar perfeitamente no [Eclipse Oxigen](http://www.eclipse.org/downloads/packages/release/Oxygen/3A).
+**Obs:** Para este projeto, sempre mantenha o seu Eclipse na perspectiva Java EE.
 
+### Adicionar o servidor Tomcat 8.5.x ao Eclipse
+A aplicação usa Tomcat 8.5.32, que pode ser baixado [aqui](http://mirror.nbtelecom.com.br/apache/tomcat/tomcat-8/v8.5.32/bin/apache-tomcat-8.5.32.tar.gz). Outras versões podem ser encontradas no [site do Apache Tomcat](https://tomcat.apache.org/download-80.cgi).
+
+- Na aba *Servers*, opte por criar um novo servidor, caso não possua nenhum Tomcat 8.5.x presente.
+- Ao invés de baixar do site, aponte para a pasta do Tomcat já descompactada e baixada anteriormente.
+- *Nota:* Não se esqueça de configurar o Tomcat com a mesma versão de Java do projeto.
+
+
+### Ter o servidor Jena Fuseki 3.8.0 executando na máquina
+Antes de executar esta aplicação no Tomcat, é necessário ter o Jena Fuseki ([download aqui](https://jena.apache.org/download/index.cgi)) sendo executado. Para tal, abra uma janela do terminal e, dentro do diretório do framework, execute o comando:
+
+    ./fuseki-server --update - /ds
+
+Em seguida, abra num browser o endereço `http://localhost:3030/dataset.html`. A partir da interface que aparece na tela, é possível manipular os datasets e executar as queries sparql. Maiores detalhes podem ser obtidos na [documentação do framework](https://jena.apache.org/documentation/serving_data/).
+
+Para que a aplicação funcione, é necessário carregar os dados `actors.rdf` e `actors_movies.rdf`. Esses arquivos são RDFs compartilhados pela turma do trabalho.
 
 ### Executar a aplicação:
 
 1. Clone o repositório na perspectiva de git do Eclipse
-2. Na perspectiva Java EE, abra a aba *"File"* e selecione *"Import"*
-3. Na busca, procure por *"Existing Maven Projects"* e clique em *"Next"*
-4. Vá até o diretório raiz da aplicação e , caso não esteja selecionado, marque o checkbox do `pom.xml` e selecione *"Next"*
-5. Espere que o Eclipse termine de baixar os artefatos. Caso seja executado antes dessa etapa, muito erros acontecerão.
-6. Após finalizado, selecione o arquivo principal da aplicação como o lado direito do mouse, *"Run As -> 2 Java Application"*  
+2. Selecione o repositório importado e escolha a opção *"Import Projects"*. (obs: Dê preferência a versão da branch master).
+5. Espere que o Eclipse termine de baixar os artefatos do Maven. Caso seja executado antes dessa etapa, muito erros acontecerão.
+3. Adicione o projeto ao servidor Tomcat 8.5.x. (Menu do projeto: *Run As -> Run On Server*)
