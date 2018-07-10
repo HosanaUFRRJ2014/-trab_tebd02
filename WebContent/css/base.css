@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+body {
+	background-color: #f5f5ef;
+}
+
+html {
+	color: black;
+}
+
+#lista {
+	text-align: center;
+}

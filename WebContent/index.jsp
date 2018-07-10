@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Catálogo de Atores</title>
 <script src="./js/requisicao.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/base.css"></link>
 </head>
 <body onload=listarAtores()>
 <h1>Sistema de Catálogo de Atores</h1>

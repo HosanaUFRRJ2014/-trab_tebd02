@@ -4,19 +4,19 @@
 
 /****************************************/
 //*****Endpoint para sistema de filmes
-endpoint_sistema_filmes = `http://localhost:3030/actors/query`;
+endpoint_sistema_filmes = `http://10.10.4.212:3030/filme_meu/query`;
 
 
 
 //*****Dataset sistema de filmes
-dataset_filmes = "<http://localhost:3030/actors/data/movies>";
+dataset_filmes = "<http://10.10.4.212:3030/actors/data/filme_meu>";
 
 /***************************************/
 
 prefixo = "prefix foaf:   <http://movieland.com/ufrrj/tebd/#> ";
 
 //*****Variáveis para requisições internas
-endpoint_atores = `http://localhost:3030/actors/query`;
+endpoint_atores = `http://localhost:3030/ds/query`;
 dataset_atores = "<http://localhost:3030/actors/data/actors>";
 dataset_atores_filmes = "<http://localhost:3030/actors/data/actors_movies>";
 
@@ -33,7 +33,7 @@ const post = (url = ``, data = {}) => {
 };
 
 listarAtores = () => {
-	post(endpoint_atores, "query=" + prefixo + " SELECT ?id ?nome ?Sobrenome FROM "+ dataset_atores 
+	post(endpoint_atores, "query=" + prefixo + " SELECT ?id ?nome ?Sobrenome " 
 			+" WHERE {?actor foaf:actorId ?id . ?actor foaf:firstName ?nome . ?actor foaf:lastName ?Sobrenome . }")
 	.then(data => {
 		console.log(data);
@@ -75,7 +75,7 @@ const exibirDetalhesAtor = () => {
 	let urlPagina = window.location.href;
 	let idAtor = urlPagina.split("#")[1];
 	
-	post(endpoint_atores, "query=" + prefixo + " SELECT ?id ?nome ?Sobrenome FROM "+ dataset_atores 
+	post(endpoint_atores, "query=" + prefixo + " SELECT ?id ?nome ?Sobrenome"
 			+"  WHERE {?actor foaf:actorId ?id . ?actor foaf:firstName ?nome . ?actor foaf:lastName ?Sobrenome . FILTER (?id = \"" 
 			+ idAtor +"\") }")
 	.then(data => {
@@ -89,7 +89,7 @@ const exibirDetalhesAtor = () => {
 	.catch(error => console.log(error));
 	
 	//listando filmes que o ator participa:
-	post(endpoint_atores, "query=" + prefixo + " SELECT ?idAtor ?idFilme  FROM " + dataset_atores_filmes
+	post(endpoint_atores, "query=" + prefixo + " SELECT ?idAtor ?idFilme  "
 			+ " WHERE  {  ?actor_movie foaf:movieId ?idFilme .  ?actor_movie foaf:actorId ?idAtor . FILTER(?idAtor = \""
 			+ idAtor + "\") }")
 	.then(data => {
@@ -132,7 +132,7 @@ const montarExibicaoDadosAtor = (dados = ``) => {
 const carregarNomeFilme = (idFilme = ``) => {
 	let nomeFilme = "";
 	post(endpoint_sistema_filmes,
-			"query=" + prefixo + "  SELECT ?idFilme ?nomeFilme  FROM " + dataset_filmes +"  WHERE  {   ?movie foaf:movieId ?idFilme .  ?movie foaf:title ?nomeFilme FILTER(?idFilme = \"" + idFilme +"\") }")
+			"query=" + prefixo + "  SELECT ?idFilme ?nomeFilme   WHERE  {   ?movie foaf:movieId ?idFilme .  ?movie foaf:title ?nomeFilme FILTER(?idFilme = \"" + idFilme +"\") }")
 			.then(data => {
 
 				//setando o nome de dado filme no link respectivo de seu id
@@ -156,7 +156,7 @@ const exibirDetalhesFilmes = () => {
 	post(endpoint_sistema_filmes, "query= " + prefixo + 
 			" SELECT ?idFilme ?nomeFilme ?descricao ?idLinguagem ?duracaoAluguel " +
 			"?custoSubstituicao ?anoLancamento ?duracao ?ultimaAtualizacao ?classificacao ?taxaAluguel ?maisInformacoes ?especial " +
-			"FROM " + dataset_filmes +
+			
 			"  WHERE {?movie foaf:movieId ?idFilme .  ?movie foaf:title ?nomeFilme . " +
 			"?movie foaf:description ?descricao . ?movie foaf:languageId ?idLinguagem . ?movie foaf:rentalDuration " +
 		    "?duracaoAluguel . ?movie foaf:replacementCost ?custoSubstituicao . ?movie foaf:releaseYear ?anoLancamento . " +
